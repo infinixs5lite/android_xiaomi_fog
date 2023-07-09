@@ -38,8 +38,8 @@ PRODUCT_PACKAGES += \
     checkpoint_gc
 
 # Boot animation
-TARGET_SCREEN_HEIGHT := 1650
-TARGET_SCREEN_WIDTH := 720
+TARGET_SCREEN_HEIGHT := 2400
+TARGET_SCREEN_WIDTH := 1080
 
 # Boot control
 PRODUCT_PACKAGES += \
@@ -47,10 +47,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES_DEBUG += \
     bootctl
-
-# API
-PRODUCT_TARGET_VNDK_VERSION := 30
-PRODUCT_SHIPPING_API_LEVEL := 30
 
 # Dynamic partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
@@ -72,9 +68,6 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/qcom-caf/bootctrl \
 	vendor/qcom/opensource/commonsys-intf/display
 
-PRODUCT_SOONG_NAMESPACES += \
-    vendor/qcom/opensource/commonsys-intf/display
-
 # Update engine
 PRODUCT_PACKAGES += \
     update_engine \
@@ -84,14 +77,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES_DEBUG += \
     update_engine_client
 
-# qcom decryption
 PRODUCT_PACKAGES += \
     qcom_decrypt \
     qcom_decrypt_fbe
 
 ALLOW_MISSING_DEPENDENCIES := true
-
-TARGET_RECOVERY_DEVICE_MODULES += libion vendor.display.config@1.0 vendor.display.config@2.0 libdisplayconfig.qti vendor.qti.hardware.vibrator.service vendor.qti.hardware.vibrator.impl libqtivibratoreffect
 
 # Crypto
 TW_INCLUDE_CRYPTO := true
@@ -109,17 +99,6 @@ TARGET_RECOVERY_DEVICE_MODULES += \
 	vendor.display.config@1.0 \
 	vendor.display.config@2.0 \
 	libdisplayconfig.qti \
-
-RECOVERY_BINARY_SOURCE_FILES += \
-    $(TARGET_OUT_VENDOR_EXECUTABLES)/hw/vendor.qti.hardware.vibrator.service
-
-#Properties
-TW_OVERRIDE_SYSTEM_PROPS := \
-    "ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental"
-
-
-# Vibrator
-TW_SUPPORT_INPUT_AIDL_HAPTICS := true
 
 # TWRP specific build flags
 TW_THEME := portrait_hdpi
@@ -141,15 +120,11 @@ TW_NO_SCREEN_BLANK := true
 TW_EXCLUDE_APEX := true
 TW_Y_OFFSET := 80
 TW_H_OFFSET := -80
-TW_DEVICE_VERSION := Build By Chinedu
-TW_EXCLUDE_ENCRYPTED_BACKUPS := true
 
 RECOVERY_LIBRARY_SOURCE_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
     $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
     $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/libdisplayconfig.qti.so \
-    $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)/vendor.qti.hardware.vibrator.impl.so \
-    $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)/libqtivibratoreffect.so
+    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/libdisplayconfig.qti.so 
 
 ENABLE_VIRTUAL_AB := true
