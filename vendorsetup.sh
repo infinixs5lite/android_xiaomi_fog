@@ -72,7 +72,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 	# -- add settings for R12 --
         export FOX_R12.1_12
         export OF_MAINTAINER="kelvinnino"
-        export FOX_BUILD_TYPE="idkt"
+        export FOX_BUILD_TYPE="unofficial"
  
     	# OTA
     	export OF_KEEP_DM_VERITY=1
