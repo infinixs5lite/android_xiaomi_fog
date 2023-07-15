@@ -58,12 +58,22 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
         export OF_ENABLE_LPTOOLS=1
         export OF_FORCE_MAGISKBOOT_BOOT_PATCH_MIUI=1
         export OF_KEEP_DM_VERITY_FORCED_ENCRYPTION=1
-
+	export OF_FBE_METADATA_MOUNT_IGNORE=1
+ 
+        # run a process after formatting data to work-around MTP issues
+	export OF_RUN_POST_FORMAT_PROCESS=1
+	export OF_SKIP_ORANGEFOX_PROCESS=1
+ 
 	export OF_PATCH_AVB20=1
     	export FOX_DELETE_AROMAFM=1
     	export FOX_BUGGED_AOSP_ARB_WORKAROUND="1546300800"; # Tuesday, January 1, 2019 12:00:00 AM GMT+00:00
     	export FOX_ENABLE_APP_MANAGER=0
-        
+
+	# -- add settings for R12 --
+        export FOX_R12.1_12
+        export OF_MAINTAINER="kelvinnino"
+        export FOX_BUILD_TYPE="idkt"
+ 
     	# OTA
     	export OF_KEEP_DM_VERITY=1
     	export OF_SUPPORT_ALL_BLOCK_OTA_UPDATES=0
