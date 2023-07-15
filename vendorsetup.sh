@@ -49,7 +49,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 	export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
 	export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
 	export OF_NO_MIUI_PATCH_WARNING=1
-  export FOX_USE_BASH_SHELL=1
+        export FOX_USE_BASH_SHELL=1
 	export FOX_ASH_IS_BASH=1
 	export FOX_USE_TAR_BINARY=1
 	export FOX_USE_SED_BINARY=1
@@ -58,17 +58,11 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
         export OF_ENABLE_LPTOOLS=1
         export OF_FORCE_MAGISKBOOT_BOOT_PATCH_MIUI=1
         export OF_KEEP_DM_VERITY_FORCED_ENCRYPTION=1
-        export OF_SKIP_DECRYPTED_ADOPTED_STORAGE=1
-        export OF_FIX_DECRYPTION_ON_DATA_MEDIA=1
 
 	export OF_PATCH_AVB20=1
     	export FOX_DELETE_AROMAFM=1
     	export FOX_BUGGED_AOSP_ARB_WORKAROUND="1546300800"; # Tuesday, January 1, 2019 12:00:00 AM GMT+00:00
     	export FOX_ENABLE_APP_MANAGER=0
-    	export OF_FBE_METADATA_MOUNT_IGNORE=1
-
-      # kernel source to be use when building
-    	export FOX_FORCE_PREBUILT_KERNEL=1
         
     	# OTA
     	export OF_KEEP_DM_VERITY=1
@@ -86,11 +80,10 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 	# maximum permissible splash image size (in kilobytes); do *NOT* increase!
 	export OF_SPLASH_MAX_SIZE=130
 
-	# run a process after formatting data to recreate /data/media/0 (only when forced-encryption is being disabled)
-	export OF_RUN_POST_FORMAT_PROCESS=1
-
-	# ensure that /sdcard is bind-unmounted before f2fs data repair or format (required for FBE v1)
-	export OF_UNBIND_SDCARD_F2FS=1
+	# flashlight
+        export OF_FLASHLIGHT_ENABLE=1
+        export OF_FL_PATH1="/system/flashlight"
+        export OF_FL_PATH2=""
 
 	# let's see what are our build VARs
 	if [ -n "$FOX_BUILD_LOG_FILE" -a -f "$FOX_BUILD_LOG_FILE" ]; then
