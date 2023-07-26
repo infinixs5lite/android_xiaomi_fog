@@ -1,6 +1,6 @@
 #
 #	This file is part of the OrangeFox Recovery Project
-# 	Copyright (C) 2021-2022 The OrangeFox Recovery Project
+# 	Copyright (C) 2020-2023 The OrangeFox Recovery Project
 #
 #	OrangeFox is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU General Public License as published by
@@ -30,62 +30,37 @@ local chkdev=$(echo "$BASH_SOURCE" | grep -w \"$FDEVICE\")
 }
 
 if [ -z "$1" -a -z "$FOX_BUILD_DEVICE" ]; then
-   echo "** WARNING **: Always set FOX_BUILD_DEVICE to the device codename before starting to build for any device!"
    fox_get_target_device
 fi
 
 if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
- 	export ALLOW_MISSING_DEPENDENCIES=true
+   	export TW_DEFAULT_LANGUAGE="en"
+	export LC_ALL="C"
+ 	export OF_AB_DEVICE=1
+        export ALLOW_MISSING_DEPENDENCIES=true
 	export TARGET_DEVICE_ALT="fog,rain,wind"
 	export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/mapper/system"
 	export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/mapper/vendor"
-	export FOX_USE_NANO_EDITOR=1
-	export OF_IGNORE_LOGICAL_MOUNT_ERRORS=1
 	export OF_USE_GREEN_LED=0
+	export OF_IGNORE_LOGICAL_MOUNT_ERRORS=1
 	export OF_HIDE_NOTCH=1
-	export OF_USE_MAGISKBOOT=1
 	export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES=1
 	export OF_DONT_PATCH_ENCRYPTED_DEVICE=1
 	export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
 	export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
-	export OF_NO_MIUI_PATCH_WARNING=1
-        export FOX_USE_BASH_SHELL=1
+	export FOX_USE_BASH_SHELL=1
 	export FOX_ASH_IS_BASH=1
 	export FOX_USE_TAR_BINARY=1
 	export FOX_USE_SED_BINARY=1
 	export FOX_USE_XZ_UTILS=1
-    	export OF_QUICK_BACKUP_LIST="/boot;/data;"
-        export OF_ENABLE_LPTOOLS=1
-        export OF_FORCE_MAGISKBOOT_BOOT_PATCH_MIUI=1
-        export OF_KEEP_DM_VERITY_FORCED_ENCRYPTION=1
-        export OF_SKIP_DECRYPTED_ADOPTED_STORAGE=1
-        export OF_FIX_DECRYPTION_ON_DATA_MEDIA=1
-        export OF_FLASHLIGHT_ENABLE=1
-	export OF_FL_PATH1="/system/flashlight"
-	export OF_FL_PATH2=""
-	export OF_PATCH_AVB20=1
-    	export FOX_DELETE_AROMAFM=1
-    	export FOX_BUGGED_AOSP_ARB_WORKAROUND="1546300800"; # Tuesday, January 1, 2019 12:00:00 AM GMT+00:00
-    	export FOX_ENABLE_APP_MANAGER=0
-    	export OF_FBE_METADATA_MOUNT_IGNORE=1
-        export OF_SKIP_FBE_DECRYPTION=1
-	export OF_OTA_RES_DECRYPT=1
-        export OF_USE_GREEN_LED=1
-	export OF_FLASHLIGHT_ENABLE=1
-        export OF_FL_PATH1="/sys/class/leds/led_torch_2"
-	export FOX_VARIANT=MIUI
-	export OF_LEGACY_PROCESS_FSTAB=1
-	
-        # kernel source to be use when building
-        export OF_FORCE_PREBUILT_KERNEL=1
-	
-    	# OTA
-    	export OF_KEEP_DM_VERITY=1
-    	export OF_SUPPORT_ALL_BLOCK_OTA_UPDATES=0
-    	export OF_FIX_OTA_UPDATE_MANUAL_FLASH_ERROR=1
-    	export OF_DISABLE_MIUI_OTA_BY_DEFAULT=1
+	export OF_ENABLE_LPTOOLS=1
+        export OF_QUICK_BACKUP_LIST="/boot;/data;"
+        export FOX_DELETE_AROMAFM=1
+        export FOX_BUGGED_AOSP_ARB_WORKAROUND="1546300800"; # Tuesday, January 1, 2019 12:00:00 AM GMT+00:00
+        export FOX_USE_NANO_EDITOR=1
+        export FOX_ENABLE_APP_MANAGER=1
 
-	# Screen settings
+	# screen settings
 	export OF_SCREEN_H=2400
 	export OF_STATUS_H=100
 	export OF_STATUS_INDENT_LEFT=48
@@ -101,6 +76,28 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 	# ensure that /sdcard is bind-unmounted before f2fs data repair or format (required for FBE v1)
 	export OF_UNBIND_SDCARD_F2FS=1
 
+	   	export OF_FLASHLIGHT_ENABLE=0
+
+	   	# vanilla build
+	   	export OF_VANILLA_BUILD=1
+
+		# no additional check for MIUI props
+		export OF_NO_ADDITIONAL_MIUI_PROPS_CHECK=1
+
+	   	# dispense with the entire OTA menu
+	   	export OF_DISABLE_OTA_MENU=1
+     
+	   	# prevent MIUI from overwriting OrangeFox
+	   	export OF_PATCH_AVB20=1
+
+        	# MIUI/delta incremental OTA stuff
+		export OF_NO_MIUI_PATCH_WARNING=1
+        	export OF_KEEP_DM_VERITY=1
+        	export OF_DISABLE_MIUI_OTA_BY_DEFAULT=1
+	   	export OF_SUPPORT_ALL_BLOCK_OTA_UPDATES=0
+	   	export OF_FIX_OTA_UPDATE_MANUAL_FLASH_ERROR=1
+	fi
+
 	# let's see what are our build VARs
 	if [ -n "$FOX_BUILD_LOG_FILE" -a -f "$FOX_BUILD_LOG_FILE" ]; then
   	   export | grep "FOX" >> $FOX_BUILD_LOG_FILE
@@ -108,5 +105,9 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    	   export | grep "TARGET_" >> $FOX_BUILD_LOG_FILE
   	   export | grep "TW_" >> $FOX_BUILD_LOG_FILE
  	fi
+else
+	if [ -z "$FOX_BUILD_DEVICE" -a -z "$BASH_SOURCE" ]; then
+		echo "I: This script requires bash. Not processing the $FDEVICE $(basename $0)"
+	fi
 fi
 #
