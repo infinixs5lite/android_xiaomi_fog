@@ -93,6 +93,11 @@ PLATFORM_VERSION := 127
 PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 BOARD_USES_QCOM_FBE_DECRYPTION := true
 
+
+#Properties
+TW_OVERRIDE_SYSTEM_PROPS := \
+    "ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental"
+
 TARGET_RECOVERY_DEVICE_MODULES += \
 	libion \
 	libandroidicu \
